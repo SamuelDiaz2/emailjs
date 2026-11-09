@@ -224,6 +224,8 @@ body {
   background: rgba(11, 14, 22, 0.85);
   border-bottom: 1px solid #1f2536;
   backdrop-filter: blur(10px);
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .f1-brand {
@@ -260,6 +262,32 @@ body {
 .status-item span {
   color: white;
   font-weight: 700;
+}
+
+/* TIMER WIDGET */
+.f1-timer-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #141925;
+  border: 1px solid #222b42;
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+.timer-label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  color: #8c93a8;
+  letter-spacing: 1px;
+}
+
+.timer-countdown {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  color: #00f076;
+  letter-spacing: 1px;
 }
 
 .f1-live-badge {
@@ -629,10 +657,17 @@ button:disabled {
       🏁 RACE<span>CLUB</span>
     </div>
     <div class="f1-session-status">
-      <div class="status-item">CIRCUIT: <span>MONZA GP</span></div>
-      <div class="status-item">WEATHER: <span>28°C DRY</span></div>
+      <div class="status-item">CIRCUIT: <span id="circuitName">NEXT GP</span></div>
+      <div class="status-item">WEATHER: <span>26°C DRY</span></div>
       <div class="status-item">TIRE COMPOUND: <span><span style="color: #ff3333">■</span> SOFT</span></div>
     </div>
+
+    <!-- TEMPORIZADOR DE LA PRÓXIMA CARRERA -->
+    <div class="f1-timer-badge">
+      <div class="timer-label">NEXT RACE IN:</div>
+      <div class="timer-countdown" id="raceCountdown">--d --h --m --s</div>
+    </div>
+
     <div class="f1-live-badge">
       <div class="f1-pulse"></div>
       <span class="f1-live-text">PADDOCK LIVE</span>
@@ -778,6 +813,34 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================================
+// TEMPORIZADOR DE PRÓXIMA CARRERA (COUNTDOWN)
+// ==========================================
+// Puedes modificar esta fecha según el GP real que desees mostrar (Formato: Año, Mes [0-11], Día, Hora, Minuto)
+const nextRaceDate = new Date(2026, 10, 22, 14, 0, 0).getTime(); // Ejemplo: 22 de Noviembre de 2026
+
+function updateCountdown() {
+  const now = new Date().getTime();
+  const distance = nextRaceDate - now;
+
+  const countdownElement = document.getElementById("raceCountdown");
+
+  if (distance < 0) {
+    countdownElement.textContent = "IT'S RACE WEEKEND!";
+    return;
+  }
+
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ==========================================
 // SIMULACIÓN DE DATOS EN VIVO (ANIMACIÓN DE TELEMETRÍA)
 // ==========================================
 setInterval(() => {
@@ -832,13 +895,13 @@ form.addEventListener("submit", async function(e) {
 // LLUVIA DE LOGOS DE F1 INTERACTIVOS
 // ==========================================
 const f1TeamLogos = [
-  "https://cdn.worldvectorlogo.com/logos/ferrari-emblem-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/mercedes-benz-9.svg",
-  "https://cdn.worldvectorlogo.com/logos/aston-martin-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/red-bull-logo.svg",
-  "https://cdn.worldvectorlogo.com/logos/mclaren-logo-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/96a934ab-059a-4c0b-ac5d-f1f40c605009/cadillac-8.svg",
-  "https://cdn.worldvectorlogo.com/logos/alpine-11.svg"
+  "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/formula-1.png",
+  "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/ferrari.png",
+  "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/mercedes.png",
+  "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/redbull.png",
+  "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/mclaren.png",
+  "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/alpine.png",
+  "https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons/png/aston-martin.png"
 ];
 
 const rainContainer = document.getElementById("logoRain");
