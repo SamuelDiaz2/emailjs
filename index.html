@@ -1,14 +1,13 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RACE CLUB // F1 Paddock Command Center</title>
 
-<title>Race Club Newsletter</title>
-
+<!-- GOOGLE FONTS: ORBITRON & INTER -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 * {
@@ -18,235 +17,407 @@
 }
 
 body {
-  background: #101116;
+  background-color: #07090e;
+  background-image: 
+    radial-gradient(circle at 50% 30%, #171c2d 0%, #07090e 80%),
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
   font-family: 'Inter', sans-serif;
-  padding: 35px 15px;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
-.race-card {
-  max-width: 470px;
-  margin: 40px auto;
-  background: #1B1D25;
-  border: 1px solid #343640;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+/* CONTENEDOR DE PANTALLA COMPLETA */
+.f1-command-center {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  border-top: 4px solid #e10600;
 }
 
-/* HEADER */
+/* LÍNEA DECORATIVA DE VELOCIDAD SUPERIOR */
+.f1-command-center::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 4px;
+  background: linear-gradient(90deg, #e10600, #ff4d4d, #ffffff, #e10600);
+  background-size: 200% 100%;
+  animation: telemetryGlow 4s linear infinite;
+}
 
-.race-header {
-  padding: 25px 30px;
+@keyframes telemetryGlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* TOPBAR / HUD DE TELEMETRÍA */
+.f1-topbar {
+  width: 100%;
+  padding: 20px 40px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #343640;
+  background: rgba(11, 14, 22, 0.9);
+  border-bottom: 1px solid #1f2536;
+  backdrop-filter: blur(10px);
 }
 
-.brand {
+.f1-brand {
   font-family: 'Orbitron', sans-serif;
-  color: white;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 900;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.brand span {
-  color: #F04444;
+.f1-brand span {
+  color: #e10600;
+  text-shadow: 0 0 15px rgba(225, 6, 0, 0.7);
 }
 
-.live {
-  color: #F04444;
-  font-size: 10px;
-  font-weight: 800;
+.f1-session-status {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: #8c93a8;
   letter-spacing: 1px;
 }
 
-/* CONTENT */
-
-.race-content {
-  padding: 38px 30px 30px;
+.status-item span {
+  color: white;
+  font-weight: 700;
 }
 
-.tag {
-  display: inline-block;
-  background: rgba(240,68,68,.12);
-  color: #F04444;
+.f1-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(225, 6, 0, 0.15);
+  border: 1px solid rgba(225, 6, 0, 0.4);
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+.f1-pulse {
+  width: 8px;
+  height: 8px;
+  background: #e10600;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #e10600;
+  animation: f1Pulse 1.2s infinite;
+}
+
+@keyframes f1Pulse {
+  0% { transform: scale(0.9); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.3; }
+  100% { transform: scale(0.9); opacity: 1; }
+}
+
+.f1-live-text {
+  color: #e10600;
+  font-family: 'Orbitron', sans-serif;
   font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+/* CONTENIDO PRINCIPAL CENTRADO A PANTALLA COMPLETA */
+.f1-main-grid {
+  flex: 1;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+/* COLUMNA IZQUIERDA: INFORMACIÓN Y ESTADÍSTICAS */
+.f1-hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.f1-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #151a28;
+  color: #e10600;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 2px;
-  padding: 8px 12px;
-  border-radius: 5px;
-  margin-bottom: 20px;
+  padding: 8px 16px;
+  border-left: 4px solid #e10600;
+  border-radius: 0 6px 6px 0;
+  width: fit-content;
+  text-transform: uppercase;
 }
 
-h1 {
+.f1-hero-content h1 {
   font-family: 'Orbitron', sans-serif;
-  color: #FFFFFF;
-  font-size: clamp(27px, 7vw, 38px);
+  font-size: clamp(36px, 5vw, 54px);
   font-weight: 900;
-  line-height: 1.3;
-  margin-bottom: 18px;
+  line-height: 1.15;
+  letter-spacing: 1px;
 }
 
-h1 span {
-  color: #F04444;
+.f1-hero-content h1 span {
+  color: transparent;
+  -webkit-text-stroke: 2px #e10600;
+  text-shadow: 0 0 25px rgba(225, 6, 0, 0.4);
 }
 
-.description {
-  color: #A7A9B3;
-  font-size: 14px;
+.f1-description {
+  color: #9397a6;
+  font-size: 16px;
   line-height: 1.8;
-  margin-bottom: 30px;
+  max-width: 520px;
 }
 
-/* FORM */
-
-.form-box {
-  background: #242731;
-  border: 1px solid #3A3D49;
-  padding: 22px;
-  border-radius: 12px;
+/* TARJETAS DE ICONOS DE RENDIMIENTO (TELEMETRÍA) */
+.telemetry-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 10px;
 }
 
-.form-title {
-  color: white;
+.metric-card {
+  background: #111520;
+  border: 1px solid #1f273d;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.metric-icon {
+  font-size: 18px;
+}
+
+.metric-title {
+  font-size: 10px;
+  color: #6c758f;
   font-family: 'Orbitron', sans-serif;
-  font-size: 13px;
-  font-weight: 800;
   letter-spacing: 1px;
-  margin-bottom: 17px;
+}
+
+.metric-value {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: 'Orbitron', sans-serif;
+  color: #ffffff;
+}
+
+/* COLUMNA DERECHA: CAJA DE REGISTRO / PIT WALL */
+.f1-pitwall-box {
+  background: #11141d;
+  border: 1px solid #232a3f;
+  border-radius: 14px;
+  padding: 35px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7),
+              inset 0 0 20px rgba(225, 6, 0, 0.03);
+}
+
+.f1-pitwall-box::before {
+  content: "PIT WALL // ACCESS TERMINAL";
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: #11141d;
+  padding: 0 10px;
+  color: #e10600;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  font-weight: 900;
+}
+
+.pitwall-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 16px;
 }
 
 input {
   width: 100%;
-  padding: 16px;
-  background: #171920;
-  border: 1px solid #414450;
-  border-radius: 7px;
+  padding: 18px 20px;
+  background: #080a10;
+  border: 1px solid #28324a;
+  border-radius: 8px;
   outline: none;
   color: white;
-  font-size: 13px;
-  transition: .3s;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
 }
 
 input::placeholder {
-  color: #858895;
+  color: #596178;
 }
 
 input:focus {
-  border-color: #F04444;
+  border-color: #e10600;
+  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.2);
+  background: #0e121d;
 }
 
 button {
   width: 100%;
-  padding: 17px;
-  margin-top: 12px;
-  background: #F04444;
+  padding: 18px;
+  background: #e10600;
   border: none;
-  border-radius: 7px;
+  border-radius: 8px;
   color: white;
   font-family: 'Orbitron', sans-serif;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 1px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
   cursor: pointer;
-  transition: .3s;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(225, 6, 0, 0.4);
 }
 
 button:hover {
-  background: #D82F38;
+  background: #ff1e16;
   transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(225, 6, 0, 0.6);
+}
+
+button:active {
+  transform: translateY(0);
 }
 
 button:disabled {
-  opacity: .6;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-/* SUCCESS */
-
+/* SUCCESS / ERROR STATES */
 #success {
   display: none;
-  margin-top: 18px;
-  padding: 20px 15px;
-  background: #292B32;
-  border: 1px solid #F04444;
-  border-radius: 9px;
+  padding: 22px;
+  background: rgba(10, 35, 20, 0.95);
+  border: 1px solid #00f076;
+  border-radius: 8px;
   text-align: center;
-  color: white;
 }
 
 #success h3 {
   font-family: 'Orbitron', sans-serif;
-  color: #F04444;
+  color: #00f076;
   font-size: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
 }
 
 #success p {
-  color: #C5C6CD;
+  color: #a8ffcc;
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 1.6;
 }
-
-/* ERROR */
 
 #error {
   display: none;
-  margin-top: 15px;
-  padding: 13px;
-  background: #49282C;
-  color: #FFB8B8;
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(45, 12, 12, 0.9);
+  border: 1px solid #e10600;
+  color: #ff9999;
   border-radius: 8px;
   font-size: 13px;
   text-align: center;
 }
 
-/* FOOTER */
+/* FOOTER & CHECKERED FLAG */
+.f1-footer-bar {
+  width: 100%;
+  background: #090b12;
+  border-top: 1px solid #1f2536;
+}
 
-.race-footer {
-  padding: 20px 30px;
-  border-top: 1px solid #343640;
+.f1-footer-content {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
 }
 
-.race-footer p {
-  color: #777B88;
+.f1-footer-content p {
+  color: #6c758f;
   font-size: 10px;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  font-family: 'Orbitron', sans-serif;
 }
 
-/* CHECKERED FLAG */
-
-.checkered {
+.f1-checkered {
   display: flex;
   height: 10px;
+  width: 100%;
 }
 
-.checkered span {
+.f1-checkered span {
   flex: 1;
 }
 
-.checkered span:nth-child(odd) {
-  background: white;
+.f1-checkered span:nth-child(odd) {
+  background: #ffffff;
 }
 
-.checkered span:nth-child(even) {
-  background: #22242B;
+.f1-checkered span:nth-child(even) {
+  background: #07090e;
 }
 
-@media(max-width: 480px) {
-  .race-content {
+/* RESPONSIVE PARA MÓVILES Y TABLETS */
+@media(max-width: 900px) {
+  .f1-main-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
     padding: 30px 20px;
   }
-
-  .race-header,
-  .race-footer {
-    padding: 20px;
+  .f1-topbar, .f1-footer-content {
+    padding: 15px 20px;
+  }
+  .f1-session-status {
+    display: none; /* Oculta detalles secundarios en pantallas chicas para limpieza visual */
   }
 }
 </style>
@@ -254,82 +425,114 @@ button:disabled {
 
 <body>
 
-<div class="race-card">
+<div class="f1-command-center">
 
-  <header class="race-header">
-    <div class="brand">RACE<span>CLUB.</span></div>
-    <div class="live">● LIVE RACING</div>
+  <!-- TOPBAR / HUD DE INFORMACIÓN -->
+  <header class="f1-topbar">
+    <div class="f1-brand">
+      🏁 RACE<span>CLUB</span>
+    </div>
+    <div class="f1-session-status">
+      <div class="status-item">CIRCUIT: <span>MONZA GP</span></div>
+      <div class="status-item">WEATHER: <span>28°C DRY</span></div>
+      <div class="status-item">TIRE COMPOUND: <span><span style="color: #ff3333">■</span> SOFT</span></div>
+    </div>
+    <div class="f1-live-badge">
+      <div class="f1-pulse"></div>
+      <span class="f1-live-text">PADDOCK LIVE</span>
+    </div>
   </header>
 
-  <main class="race-content">
+  <!-- CONTENIDO PRINCIPAL A PANTALLA COMPLETA -->
+  <main class="f1-main-grid">
 
-    <div class="tag">🏁 THE RACING COMMUNITY</div>
+    <!-- HERO TEXTO E ICONOS DE TELEMETRÍA -->
+    <div class="f1-hero-content">
+      <div class="f1-tag">⚡ FIA OFFICIAL TELEMETRY</div>
+      <h1>
+        FEEL THE SPEED.<br>
+        <span>LIVE THE RACE.</span>
+      </h1>
+      <p class="f1-description">
+        La adrenalina no termina en la bandera a cuadros. Únete al centro de mando definitivo para recibir análisis de rendimiento en tiempo real, noticias de última hora de la parrilla y contenido exclusivo de monoplazas directamente en tu bandeja.
+      </p>
 
-    <h1>
-      FEEL THE SPEED.<br>
-      <span>LIVE THE RACE.</span>
-    </h1>
+      <!-- ICONOS Y TARJETAS DE DATOS -->
+      <div class="telemetry-metrics">
+        <div class="metric-card">
+          <div class="metric-icon">🏎️</div>
+          <div class="metric-title">TOP SPEED</div>
+          <div class="metric-value">362 KM/H</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">⏱️</div>
+          <div class="metric-title">LAP RECORD</div>
+          <div class="metric-value">1:19.203</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-icon">📡</div>
+          <div class="metric-title">LATENCY</div>
+          <div class="metric-value">12 MS</div>
+        </div>
+      </div>
+    </div>
 
-    <p class="description">
-      La adrenalina no termina en la pista.
-      Suscríbete y recibe las últimas noticias,
-      momentos épicos y novedades del mundo
-      del automovilismo.
-    </p>
-
-    <div class="form-box">
-
-      <div class="form-title">JOIN THE GRID</div>
+    <!-- CAJA DE REGISTRO / PIT WALL -->
+    <div class="f1-pitwall-box">
+      <div class="pitwall-title">JOIN THE GRID</div>
 
       <form id="raceForm">
 
-        <input
-          type="email"
-          id="email"
-          placeholder="Ingresa tu correo electrónico"
-          autocomplete="email"
-          required
-        >
+        <div class="input-group">
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="Introduce tu correo (ej. driver@f1.com)" 
+            autocomplete="email" 
+            required
+          >
+        </div>
 
         <button type="submit" id="submitBtn">
-          SUSCRIBIRME →
+          LIGHTS OUT & AWAY WE GO →
         </button>
 
       </form>
 
       <div id="success">
-        <h3>🏁 YOU'RE ON THE GRID!</h3>
-        <p>
-          ¡Bienvenido al equipo!
-          Tu suscripción se ha realizado correctamente.
-          Nos vemos en la próxima carrera.
-        </p>
+        <h3>🏁 BOX, BOX! YOU'RE ON THE GRID</h3>
+        <p>¡Suscripción confirmada con éxito! Te hemos añadido al pit lane oficial. Nos vemos en la próxima carrera.</p>
       </div>
 
       <div id="error">
-        ⚠️ Error en boxes. Inténtalo nuevamente.
+        ⚠️ Alerta en telemetría de red. Comprueba tu correo e inténtalo de nuevo.
       </div>
 
     </div>
 
   </main>
 
-  <footer class="race-footer">
-    <p>NO SPAM. JUST RACING.</p>
-    <p>EST. 2026</p>
-  </footer>
-
-  <div class="checkered">
-    <span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span>
+  <!-- FOOTER Y BANDERA A CUADROS -->
+  <div class="f1-footer-bar">
+    <div class="f1-footer-content">
+      <p>NO SPAM. ONLY MOTORSPORT TELEMETRY.</p>
+      <p>EST. 2026 // F1 COMMAND SYSTEM</p>
+    </div>
+    <div class="f1-checkered">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
   </div>
 
 </div>
 
 <!-- EMAILJS -->
-
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
@@ -341,17 +544,15 @@ const form = document.getElementById("raceForm");
 const button = document.getElementById("submitBtn");
 
 form.addEventListener("submit", async function(e) {
-
   e.preventDefault();
 
   button.disabled = true;
-  button.textContent = "IN PIT STOP...";
+  button.textContent = "CHANGING TIRES (BOX BOX)...";
 
   document.getElementById("success").style.display = "none";
   document.getElementById("error").style.display = "none";
 
   try {
-
     await emailjs.send(
       "service_x4jqypi",
       "template_oaiw10j",
@@ -362,18 +563,13 @@ form.addEventListener("submit", async function(e) {
 
     form.reset();
     form.style.display = "none";
-
     document.getElementById("success").style.display = "block";
 
   } catch (error) {
-
     document.getElementById("error").style.display = "block";
-
     button.disabled = false;
-    button.textContent = "SUSCRIBIRME →";
-
+    button.textContent = "LIGHTS OUT & AWAY WE GO →";
   }
-
 });
 </script>
 
