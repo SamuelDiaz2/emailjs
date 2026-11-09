@@ -97,6 +97,12 @@ body {
   background: #e10600;
   border-color: #ff4d4d;
   box-shadow: 0 0 20px #e10600, inset 0 0 5px #fff;
+  animation: lightPulse 0.4s ease infinite alternate;
+}
+
+@keyframes lightPulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); box-shadow: 0 0 30px #ff1e16; }
 }
 
 .intro-loader-bar {
@@ -132,7 +138,7 @@ body {
 .animate-on-start {
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 1s ease, transform 1s ease;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page-loaded .animate-on-start {
@@ -164,25 +170,131 @@ body {
   width: 45px;
   height: 45px;
   object-fit: contain;
-  opacity: 0.15;
+  opacity: 0.12;
   cursor: pointer;
   pointer-events: auto;
   user-select: none;
   filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
-  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease, opacity 0.3s ease;
   animation: fallLogo linear infinite;
 }
 
 .f1-falling-logo:hover {
-  transform: scale(1.6) rotate(15deg) !important;
-  opacity: 0.9;
-  filter: drop-shadow(0 0 12px #e10600);
+  transform: scale(1.8) rotate(25deg) !important;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 18px #e10600);
   z-index: 5;
 }
 
 @keyframes fallLogo {
   0% { transform: translateY(-70px) rotate(0deg); }
   100% { transform: translateY(105vh) rotate(360deg); }
+}
+
+/* =========================================
+   ANIMACIÓN DEL COCHE DE F1 EN MOVIMIENTO
+   ========================================= */
+.f1-track-animation-container {
+  position: fixed;
+  bottom: 50px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.f1-moving-car {
+  position: absolute;
+  width: 160px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  animation: driveCar 8s linear infinite;
+  filter: drop-shadow(0 5px 15px rgba(225, 6, 0, 0.5));
+}
+
+@keyframes driveCar {
+  0% { transform: translateX(-200px) translateY(0); }
+  25% { transform: translateX(30vw) translateY(-4px) rotate(-1deg); }
+  50% { transform: translateX(60vw) translateY(2px) rotate(1deg); }
+  75% { transform: translateX(85vw) translateY(-2px) rotate(0deg); }
+  100% { transform: translateX(calc(100vw + 200px)) translateY(0); }
+}
+
+.car-body {
+  position: relative;
+  width: 140px;
+  height: 35px;
+  background: linear-gradient(90deg, #b30000, #e10600, #ff3333);
+  border-radius: 40px 15px 10px 25px;
+  box-shadow: inset 0 -4px 8px rgba(0,0,0,0.5), 0 0 15px rgba(225, 6, 0, 0.8);
+  animation: carVibration 0.1s ease infinite;
+}
+
+@keyframes carVibration {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1px); }
+}
+
+.car-body::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  bottom: 2px;
+  width: 15px;
+  height: 14px;
+  background: #111;
+  border-radius: 2px 5px 2px 8px;
+  border-top: 2px solid #e10600;
+}
+
+.car-body::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  top: -8px;
+  width: 12px;
+  height: 18px;
+  background: #111;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(225,6,0,0.8);
+}
+
+.car-wheel {
+  position: absolute;
+  bottom: -8px;
+  width: 28px;
+  height: 28px;
+  background: #111;
+  border-radius: 50%;
+  border: 4px solid #333;
+  box-shadow: 0 0 10px rgba(0,0,0,0.9);
+  animation: spinWheel 0.4s linear infinite;
+}
+
+.car-wheel.front { left: 20px; }
+.car-wheel.rear { right: 22px; }
+
+@keyframes spinWheel {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.speed-trail {
+  position: absolute;
+  right: 145px;
+  top: 15px;
+  width: 90px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  animation: trailPulse 0.3s ease infinite alternate;
+}
+
+@keyframes trailPulse {
+  0% { opacity: 0.3; width: 60px; }
+  100% { opacity: 1; width: 110px; }
 }
 
 /* =========================================
@@ -205,7 +317,7 @@ body {
   top: 0; left: 0; width: 100%; height: 4px;
   background: linear-gradient(90deg, #e10600, #ff4d4d, #ffffff, #e10600);
   background-size: 200% 100%;
-  animation: telemetryGlow 4s linear infinite;
+  animation: telemetryGlow 3s linear infinite;
   z-index: 10;
 }
 
@@ -236,6 +348,11 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
+  transition: transform 0.3s ease;
+}
+
+.f1-brand:hover {
+  transform: scale(1.03);
 }
 
 .f1-brand span {
@@ -264,30 +381,62 @@ body {
   font-weight: 700;
 }
 
-/* TIMER WIDGET */
+/* =========================================
+   TEMPORIZADOR: RELOJ DIGITAL GIGANTE & BONITO
+   ========================================= */
 .f1-timer-badge {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 12px;
-  background: #141925;
-  border: 1px solid #222b42;
-  padding: 6px 14px;
-  border-radius: 6px;
+  gap: 4px;
+  background: linear-gradient(135deg, #0f1523, #161f33);
+  border: 2px solid #222b42;
+  padding: 10px 22px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 240, 118, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.8);
+  animation: timerNeonPulse 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.f1-timer-badge::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00f076, transparent);
+  animation: timerScan 3s linear infinite;
+}
+
+@keyframes timerScan {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+@keyframes timerNeonPulse {
+  0%, 100% { border-color: #222b42; box-shadow: 0 0 15px rgba(0, 240, 118, 0.1); }
+  50% { border-color: rgba(0, 240, 118, 0.6); box-shadow: 0 0 30px rgba(0, 240, 118, 0.35); }
 }
 
 .timer-label {
   font-family: 'Orbitron', sans-serif;
-  font-size: 10px;
+  font-size: 9px;
   color: #8c93a8;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .timer-countdown {
   font-family: 'Orbitron', sans-serif;
-  font-size: 12px;
-  font-weight: 800;
+  font-size: 20px;
+  font-weight: 900;
   color: #00f076;
-  letter-spacing: 1px;
+  letter-spacing: 3px;
+  text-shadow: 0 0 12px rgba(0, 240, 118, 0.8), 0 0 25px rgba(0, 240, 118, 0.4);
+  display: flex;
+  gap: 8px;
 }
 
 .f1-live-badge {
@@ -310,9 +459,9 @@ body {
 }
 
 @keyframes f1Pulse {
-  0% { transform: scale(0.9); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.3; }
-  100% { transform: scale(0.9); opacity: 1; }
+  0% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(225, 6, 0, 0.7); }
+  70% { transform: scale(1.4); opacity: 0.3; box-shadow: 0 0 0 8px rgba(225, 6, 0, 0); }
+  100% { transform: scale(0.9); opacity: 1; box-shadow: 0 0 0 0 rgba(225, 6, 0, 0); }
 }
 
 .f1-live-text {
@@ -358,6 +507,12 @@ body {
   border-radius: 0 6px 6px 0;
   width: fit-content;
   text-transform: uppercase;
+  animation: tagSlide 1.5s ease infinite alternate;
+}
+
+@keyframes tagSlide {
+  0% { box-shadow: inset 0 0 0 rgba(225,6,0,0); }
+  100% { box-shadow: inset 100px 0 15px rgba(225,6,0,0.08); }
 }
 
 .f1-hero-content h1 {
@@ -372,6 +527,12 @@ body {
   color: transparent;
   -webkit-text-stroke: 2px #e10600;
   text-shadow: 0 0 25px rgba(225, 6, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+.f1-hero-content h1 span:hover {
+  color: #e10600;
+  text-shadow: 0 0 35px rgba(225, 6, 0, 0.8);
 }
 
 .f1-description {
@@ -397,17 +558,39 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e10600, transparent);
+  transition: 0.5s;
+}
+
+.metric-card:hover::after {
+  left: 100%;
 }
 
 .metric-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.02);
   border-color: #e10600;
-  box-shadow: 0 0 15px rgba(225, 6, 0, 0.3);
+  box-shadow: 0 10px 25px rgba(225, 6, 0, 0.25);
 }
 
 .metric-icon {
   font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.metric-card:hover .metric-icon {
+  transform: scale(1.2) rotate(10deg);
 }
 
 .metric-title {
@@ -434,11 +617,30 @@ body {
   box-shadow: 0 20px 50px rgba(0,0,0,0.7),
               inset 0 0 20px rgba(225, 6, 0, 0.03);
   backdrop-filter: blur(5px);
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.f1-pitwall-box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e10600, transparent);
+  animation: scanLaser 4s ease-in-out infinite;
+}
+
+@keyframes scanLaser {
+  0% { left: -100%; top: 0; }
+  50% { left: 100%; top: 100%; }
+  100% { left: -100%; top: 0; }
 }
 
 .f1-pitwall-box:hover {
-  border-color: rgba(225, 6, 0, 0.5);
+  border-color: rgba(225, 6, 0, 0.6);
+  box-shadow: 0 20px 60px rgba(225, 6, 0, 0.15), inset 0 0 30px rgba(225, 6, 0, 0.06);
 }
 
 .f1-pitwall-box::before {
@@ -466,9 +668,38 @@ body {
   gap: 10px;
 }
 
+/* =========================================
+   CUADROS DE TEXTO ANIMADOS (INPUTS)
+   ========================================= */
 .input-group {
   position: relative;
   margin-bottom: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Marco animado de neón alrededor del input */
+.input-group::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(90deg, #e10600, #00f076, #ffcc00, #e10600);
+  background-size: 300% 300%;
+  z-index: 0;
+  border-radius: 10px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: inputBorderGlow 4s linear infinite;
+}
+
+@keyframes inputBorderGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.input-group:focus-within::before {
+  opacity: 1;
 }
 
 input {
@@ -481,17 +712,26 @@ input {
   color: white;
   font-size: 14px;
   font-family: 'Inter', sans-serif;
-  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 input::placeholder {
   color: #596178;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 input:focus {
-  border-color: #e10600;
-  box-shadow: 0 0 0 3px rgba(225, 6, 0, 0.2);
+  border-color: transparent;
   background: #0e121d;
+  box-shadow: inset 0 0 15px rgba(225,6,0,0.15);
+  transform: translateY(-2px) scale(1.005);
+}
+
+input:focus::placeholder {
+  color: #8c93a8;
+  transform: translateX(5px);
 }
 
 button {
@@ -506,14 +746,31 @@ button {
   font-weight: 900;
   letter-spacing: 2px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 4px 20px rgba(225, 6, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+button:hover::before {
+  left: 100%;
 }
 
 button:hover {
   background: #ff1e16;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(225, 6, 0, 0.6);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 8px 30px rgba(225, 6, 0, 0.7);
 }
 
 button:active {
@@ -535,6 +792,12 @@ button:disabled {
   border: 1px solid #00f076;
   border-radius: 8px;
   text-align: center;
+  animation: successFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes successFadeIn {
+  0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 #success h3 {
@@ -561,6 +824,13 @@ button:disabled {
   border-radius: 8px;
   font-size: 13px;
   text-align: center;
+  animation: shakeError 0.4s ease;
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
 }
 
 /* FOOTER & BANDERA A CUADROS */
@@ -595,15 +865,11 @@ button:disabled {
 
 .f1-checkered span {
   flex: 1;
+  transition: background 0.3s ease;
 }
 
-.f1-checkered span:nth-child(odd) {
-  background: #ffffff;
-}
-
-.f1-checkered span:nth-child(even) {
-  background: #07090e;
-}
+.f1-checkered span:nth-child(odd) { background: #ffffff; }
+.f1-checkered span:nth-child(even) { background: #07090e; }
 
 /* RESPONSIVE PARA MÓVILES Y TABLETS */
 @media(max-width: 900px) {
@@ -617,6 +883,9 @@ button:disabled {
   }
   .f1-session-status {
     display: none;
+  }
+  .timer-countdown {
+    font-size: 15px;
   }
 }
 </style>
@@ -649,6 +918,17 @@ button:disabled {
 <!-- CAPA DE LOGOS DE F1 CAYENDO -->
 <div class="f1-logo-rain" id="logoRain"></div>
 
+<!-- COCHE DE F1 EN MOVIMIENTO -->
+<div class="f1-track-animation-container">
+  <div class="f1-moving-car">
+    <div class="speed-trail"></div>
+    <div class="car-body">
+      <div class="car-wheel front"></div>
+      <div class="car-wheel rear"></div>
+    </div>
+  </div>
+</div>
+
 <div class="f1-command-center">
 
   <!-- TOPBAR / HUD DE INFORMACIÓN -->
@@ -662,9 +942,9 @@ button:disabled {
       <div class="status-item">TIRE COMPOUND: <span><span style="color: #ff3333">■</span> SOFT</span></div>
     </div>
 
-    <!-- TEMPORIZADOR DE LA PRÓXIMA CARRERA -->
+    <!-- TEMPORIZADOR DIGITAL ESTILO RELOJ DE ALTA TECNOLOGÍA -->
     <div class="f1-timer-badge">
-      <div class="timer-label">NEXT RACE IN:</div>
+      <div class="timer-label">NEXT RACE COUNTDOWN</div>
       <div class="timer-countdown" id="raceCountdown">--d --h --m --s</div>
     </div>
 
@@ -801,7 +1081,6 @@ window.addEventListener("DOMContentLoaded", () => {
         lights.forEach(l => l.classList.remove("active"));
         introScreen.style.opacity = "0";
         
-        // Dispara la animación de entrada de los elementos principales
         document.body.classList.add("page-loaded");
 
         setTimeout(() => {
@@ -813,10 +1092,9 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================================
-// TEMPORIZADOR DE PRÓXIMA CARRERA (COUNTDOWN)
+// TEMPORIZADOR: RELOJ DIGITAL
 // ==========================================
-// Puedes modificar esta fecha según el GP real que desees mostrar (Formato: Año, Mes [0-11], Día, Hora, Minuto)
-const nextRaceDate = new Date(2026, 10, 22, 14, 0, 0).getTime(); // Ejemplo: 22 de Noviembre de 2026
+const nextRaceDate = new Date(2026, 10, 22, 14, 0, 0).getTime();
 
 function updateCountdown() {
   const now = new Date().getTime();
@@ -834,14 +1112,20 @@ function updateCountdown() {
   const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  // Formato digital con ceros a la izquierda
+  const d = String(days).padStart(2, '0');
+  const h = String(hours).padStart(2, '0');
+  const m = String(minutes).padStart(2, '0');
+  const s = String(seconds).padStart(2, '0');
+
+  countdownElement.innerHTML = `${d}<span style="color:#6c758f">:</span>${h}<span style="color:#6c758f">:</span>${m}<span style="color:#6c758f">:</span>${s}`;
 }
 
 setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // ==========================================
-// SIMULACIÓN DE DATOS EN VIVO (ANIMACIÓN DE TELEMETRÍA)
+// SIMULACIÓN DE DATOS EN VIVO (TELEMETRÍA)
 // ==========================================
 setInterval(() => {
   if(document.body.classList.contains("page-loaded")) {
@@ -895,13 +1179,13 @@ form.addEventListener("submit", async function(e) {
 // LLUVIA DE LOGOS DE F1 INTERACTIVOS
 // ==========================================
 const f1TeamLogos = [
-  "https://cdn.worldvectorlogo.com/logos/ferrari-emblem-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/mercedes-benz-9.svg",
-  "https://cdn.worldvectorlogo.com/logos/aston-martin-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/red-bull-logo.svg",
-  "https://cdn.worldvectorlogo.com/logos/mclaren-logo-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/96a934ab-059a-4c0b-ac5d-f1f40c605009/cadillac-8.svg",
-  "https://cdn.worldvectorlogo.com/logos/alpine-11.svg"
+  "https://cdn.worldvectorlogo.com/logos/ferrari-emblem-1.svg",
+  "https://cdn.worldvectorlogo.com/logos/mercedes-benz-9.svg",
+  "https://cdn.worldvectorlogo.com/logos/aston-martin-1.svg",
+  "https://cdn.worldvectorlogo.com/logos/red-bull-logo.svg",
+  "https://cdn.worldvectorlogo.com/logos/mclaren-logo-1.svg",
+  "https://cdn.worldvectorlogo.com/logos/96a934ab-059a-4c0b-ac5d-f1f40c605009/cadillac-8.svg",
+  "https://cdn.worldvectorlogo.com/logos/alpine-11.svg"
 ];
 
 const rainContainer = document.getElementById("logoRain");
@@ -931,7 +1215,7 @@ for (let i = 0; i < numberOfLogos; i++) {
     this.style.opacity = "1";
     setTimeout(() => {
       this.style.transform = "scale(1) rotate(0deg)";
-      this.style.opacity = "0.15";
+      this.style.opacity = "0.12";
     }, 400);
   });
 
