@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Race Club Newsletter</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #101116;
+  font-family: 'Inter', sans-serif;
+  padding: 35px 15px;
+}
+
+.race-card {
+  max-width: 470px;
+  margin: 40px auto;
+  background: #1B1D25;
+  border: 1px solid #343640;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+
+/* HEADER */
+
+.race-header {
+  padding: 25px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #343640;
+}
+
+.brand {
+  font-family: 'Orbitron', sans-serif;
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.brand span {
+  color: #F04444;
+}
+
+.live {
+  color: #F04444;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* CONTENT */
+
+.race-content {
+  padding: 38px 30px 30px;
+}
+
+.tag {
+  display: inline-block;
+  background: rgba(240,68,68,.12);
+  color: #F04444;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  color: #FFFFFF;
+  font-size: clamp(27px, 7vw, 38px);
+  font-weight: 900;
+  line-height: 1.3;
+  margin-bottom: 18px;
+}
+
+h1 span {
+  color: #F04444;
+}
+
+.description {
+  color: #A7A9B3;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+/* FORM */
+
+.form-box {
+  background: #242731;
+  border: 1px solid #3A3D49;
+  padding: 22px;
+  border-radius: 12px;
+}
+
+.form-title {
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 17px;
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  background: #171920;
+  border: 1px solid #414450;
+  border-radius: 7px;
+  outline: none;
+  color: white;
+  font-size: 13px;
+  transition: .3s;
+}
+
+input::placeholder {
+  color: #858895;
+}
+
+input:focus {
+  border-color: #F04444;
+}
+
+button {
+  width: 100%;
+  padding: 17px;
+  margin-top: 12px;
+  background: #F04444;
+  border: none;
+  border-radius: 7px;
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+button:hover {
+  background: #D82F38;
+  transform: translateY(-2px);
+}
+
+button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* SUCCESS */
+
+#success {
+  display: none;
+  margin-top: 18px;
+  padding: 20px 15px;
+  background: #292B32;
+  border: 1px solid #F04444;
+  border-radius: 9px;
+  text-align: center;
+  color: white;
+}
+
+#success h3 {
+  font-family: 'Orbitron', sans-serif;
+  color: #F04444;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+#success p {
+  color: #C5C6CD;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ERROR */
+
+#error {
+  display: none;
+  margin-top: 15px;
+  padding: 13px;
+  background: #49282C;
+  color: #FFB8B8;
+  border-radius: 8px;
+  font-size: 13px;
+  text-align: center;
+}
+
+/* FOOTER */
+
+.race-footer {
+  padding: 20px 30px;
+  border-top: 1px solid #343640;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.race-footer p {
+  color: #777B88;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+/* CHECKERED FLAG */
+
+.checkered {
+  display: flex;
+  height: 10px;
+}
+
+.checkered span {
+  flex: 1;
+}
+
+.checkered span:nth-child(odd) {
+  background: white;
+}
+
+.checkered span:nth-child(even) {
+  background: #22242B;
+}
+
+@media(max-width: 480px) {
+  .race-content {
+    padding: 30px 20px;
+  }
+
+  .race-header,
+  .race-footer {
+    padding: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="race-card">
+
+  <header class="race-header">
+    <div class="brand">RACE<span>CLUB.</span></div>
+    <div class="live">● LIVE RACING</div>
+  </header>
+
+  <main class="race-content">
+
+    <div class="tag">🏁 THE RACING COMMUNITY</div>
+
+    <h1>
+      FEEL THE SPEED.<br>
+      <span>LIVE THE RACE.</span>
+    </h1>
+
+    <p class="description">
+      La adrenalina no termina en la pista.
+      Suscríbete y recibe las últimas noticias,
+      momentos épicos y novedades del mundo
+      del automovilismo.
+    </p>
+
+    <div class="form-box">
+
+      <div class="form-title">JOIN THE GRID</div>
+
+      <form id="raceForm">
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Ingresa tu correo electrónico"
+          autocomplete="email"
+          required
+        >
+
+        <button type="submit" id="submitBtn">
+          SUSCRIBIRME →
+        </button>
+
+      </form>
+
+      <div id="success">
+        <h3>🏁 YOU'RE ON THE GRID!</h3>
+        <p>
+          ¡Bienvenido al equipo!
+          Tu suscripción se ha realizado correctamente.
+          Nos vemos en la próxima carrera.
+        </p>
+      </div>
+
+      <div id="error">
+        ⚠️ Error en boxes. Inténtalo nuevamente.
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="race-footer">
+    <p>NO SPAM. JUST RACING.</p>
+    <p>EST. 2026</p>
+  </footer>
+
+  <div class="checkered">
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+</div>
+
+<!-- EMAILJS -->
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+emailjs.init({
+  publicKey: "1b5luNZnjUjWcRALz"
+});
+
+const form = document.getElementById("raceForm");
+const button = document.getElementById("submitBtn");
+
+form.addEventListener("submit", async function(e) {
+
+  e.preventDefault();
+
+  button.disabled = true;
+  button.textContent = "IN PIT STOP...";
+
+  document.getElementById("success").style.display = "none";
+  document.getElementById("error").style.display = "none";
+
+  try {
+
+    await emailjs.send(
+      "service_x4jqypi",
+      "template_oaiw10j",
+      {
+        email: document.getElementById("email").value
+      }
+    );
+
+    form.reset();
+    form.style.display = "none";
+
+    document.getElementById("success").style.display = "block";
+
+  } catch (error) {
+
+    document.getElementById("error").style.display = "block";
+
+    button.disabled = false;
+    button.textContent = "SUSCRIBIRME →";
+
+  }
+
+});
+</script>
+
+</body>
+</html>
