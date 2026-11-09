@@ -32,14 +32,128 @@ body {
   position: relative;
 }
 
-/* CONTENEDOR DE LOGOS CAYENDO (BACKGROUND RAIN) */
+/* =========================================
+   INTRO / CINEMÁTICA INICIAL (PANTALLA DE CARGA)
+   ========================================= */
+#f1-intro-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #05070a;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.intro-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+
+.intro-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.intro-title span {
+  color: #e10600;
+}
+
+/* LUCES DE SALIDA DE F1 (SEMAFORO) */
+.f1-starting-lights {
+  display: flex;
+  gap: 15px;
+  background: #0b0f19;
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: 1px solid #1f273d;
+  box-shadow: 0 0 30px rgba(0,0,0,0.8);
+}
+
+.light-bulb {
+  width: 28px;
+  height: 28px;
+  background: #1a2236;
+  border-radius: 50%;
+  border: 2px solid #2a3654;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
+}
+
+.light-bulb.active {
+  background: #e10600;
+  border-color: #ff4d4d;
+  box-shadow: 0 0 20px #e10600, inset 0 0 5px #fff;
+}
+
+.intro-loader-bar {
+  width: 250px;
+  height: 4px;
+  background: #1a2236;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.intro-loader-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: #e10600;
+  box-shadow: 0 0 10px #e10600;
+  transition: width 0.1s linear;
+}
+
+.intro-status-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: #6c758f;
+  letter-spacing: 2px;
+}
+
+/* =========================================
+   ESTADOS DE ANIMACIÓN POST-CINEMÁTICA
+   ========================================= */
+.animate-on-start {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.page-loaded .animate-on-start {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delay-1 { transition-delay: 0.2s; }
+.delay-2 { transition-delay: 0.4s; }
+.delay-3 { transition-delay: 0.6s; }
+
+/* =========================================
+   CONTENEDOR DE LOGOS CAYENDO (BACKGROUND RAIN)
+   ========================================= */
 .f1-logo-rain {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  pointer-events: none; /* Permite hacer clic en los elementos de abajo, pero los logos capturarán eventos específicos */
+  pointer-events: none;
   overflow: hidden;
   z-index: 0;
 }
@@ -52,14 +166,13 @@ body {
   object-fit: contain;
   opacity: 0.15;
   cursor: pointer;
-  pointer-events: auto; /* Permite interactuar con el mouse directamente sobre los logos */
+  pointer-events: auto;
   user-select: none;
   filter: drop-shadow(0 0 5px rgba(255,255,255,0.1));
   transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
   animation: fallLogo linear infinite;
 }
 
-/* EFECTO INTERACTIVO AL PASAR EL MOUSE POR LOS LOGOS */
 .f1-falling-logo:hover {
   transform: scale(1.6) rotate(15deg) !important;
   opacity: 0.9;
@@ -68,15 +181,13 @@ body {
 }
 
 @keyframes fallLogo {
-  0% {
-    transform: translateY(-70px) rotate(0deg);
-  }
-  100% {
-    transform: translateY(105vh) rotate(360deg);
-  }
+  0% { transform: translateY(-70px) rotate(0deg); }
+  100% { transform: translateY(105vh) rotate(360deg); }
 }
 
-/* CONTENEDOR DE PANTALLA COMPLETA */
+/* =========================================
+   PANTALLA PRINCIPAL
+   ========================================= */
 .f1-command-center {
   width: 100vw;
   min-height: 100vh;
@@ -88,7 +199,6 @@ body {
   z-index: 1;
 }
 
-/* LÍNEA DECORATIVA DE VELOCIDAD SUPERIOR */
 .f1-command-center::before {
   content: "";
   position: absolute;
@@ -259,12 +369,13 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  transition: transform 0.3s ease, border-color 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .metric-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
   border-color: #e10600;
+  box-shadow: 0 0 15px rgba(225, 6, 0, 0.3);
 }
 
 .metric-icon {
@@ -295,6 +406,11 @@ body {
   box-shadow: 0 20px 50px rgba(0,0,0,0.7),
               inset 0 0 20px rgba(225, 6, 0, 0.03);
   backdrop-filter: blur(5px);
+  transition: border-color 0.3s ease;
+}
+
+.f1-pitwall-box:hover {
+  border-color: rgba(225, 6, 0, 0.5);
 }
 
 .f1-pitwall-box::before {
@@ -480,13 +596,35 @@ button:disabled {
 
 <body>
 
+<!-- CINEMÁTICA / INTRO INICIAL ESTILO F1 -->
+<div id="f1-intro-screen">
+  <div class="intro-content">
+    <div class="intro-title">RACE<span>CLUB</span> // TELEMETRY</div>
+    
+    <!-- LUCES DE SEMÁFORO DE SALIDA -->
+    <div class="f1-starting-lights">
+      <div class="light-bulb" id="l1"></div>
+      <div class="light-bulb" id="l2"></div>
+      <div class="light-bulb" id="l3"></div>
+      <div class="light-bulb" id="l4"></div>
+      <div class="light-bulb" id="l5"></div>
+    </div>
+
+    <div class="intro-loader-bar">
+      <div class="intro-loader-progress" id="loaderBar"></div>
+    </div>
+    
+    <div class="intro-status-text" id="introText">CONNECTING TO PADDOCK...</div>
+  </div>
+</div>
+
 <!-- CAPA DE LOGOS DE F1 CAYENDO -->
 <div class="f1-logo-rain" id="logoRain"></div>
 
 <div class="f1-command-center">
 
   <!-- TOPBAR / HUD DE INFORMACIÓN -->
-  <header class="f1-topbar">
+  <header class="f1-topbar animate-on-start">
     <div class="f1-brand">
       🏁 RACE<span>CLUB</span>
     </div>
@@ -505,7 +643,7 @@ button:disabled {
   <main class="f1-main-grid">
 
     <!-- HERO TEXTO E ICONOS DE TELEMETRÍA -->
-    <div class="f1-hero-content">
+    <div class="f1-hero-content animate-on-start delay-1">
       <div class="f1-tag">⚡ FIA OFFICIAL TELEMETRY</div>
       <h1>
         FEEL THE SPEED.<br>
@@ -520,7 +658,7 @@ button:disabled {
         <div class="metric-card">
           <div class="metric-icon">🏎️</div>
           <div class="metric-title">TOP SPEED</div>
-          <div class="metric-value">362 KM/H</div>
+          <div class="metric-value" id="topSpeed">362 KM/H</div>
         </div>
         <div class="metric-card">
           <div class="metric-icon">⏱️</div>
@@ -530,13 +668,13 @@ button:disabled {
         <div class="metric-card">
           <div class="metric-icon">📡</div>
           <div class="metric-title">LATENCY</div>
-          <div class="metric-value">12 MS</div>
+          <div class="metric-value" id="latencyVal">12 MS</div>
         </div>
       </div>
     </div>
 
     <!-- CAJA DE REGISTRO / PIT WALL -->
-    <div class="f1-pitwall-box">
+    <div class="f1-pitwall-box animate-on-start delay-2">
       <div class="pitwall-title">JOIN THE GRID</div>
 
       <form id="raceForm">
@@ -571,7 +709,7 @@ button:disabled {
   </main>
 
   <!-- FOOTER Y BANDERA A CUADROS -->
-  <div class="f1-footer-bar">
+  <div class="f1-footer-bar animate-on-start delay-3">
     <div class="f1-footer-content">
       <p>NO SPAM. ONLY MOTORSPORT TELEMETRY.</p>
       <p>EST. 2026 // F1 COMMAND SYSTEM</p>
@@ -594,6 +732,66 @@ button:disabled {
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
+// ==========================================
+// SECUENCIA DE INTRODUCCIÓN (SEMÁFORO F1)
+// ==========================================
+window.addEventListener("DOMContentLoaded", () => {
+  const lights = [
+    document.getElementById("l1"),
+    document.getElementById("l2"),
+    document.getElementById("l3"),
+    document.getElementById("l4"),
+    document.getElementById("l5")
+  ];
+  const loaderBar = document.getElementById("loaderBar");
+  const introText = document.getElementById("introText");
+  const introScreen = document.getElementById("f1-intro-screen");
+
+  let progress = 0;
+
+  const introInterval = setInterval(() => {
+    progress += 2;
+    loaderBar.style.width = progress + "%";
+
+    if (progress === 20) { lights[0].classList.add("active"); introText.textContent = "LOADING TELEMETRY..."; }
+    if (progress === 40) { lights[1].classList.add("active"); }
+    if (progress === 60) { lights[2].classList.add("active"); introText.textContent = "SYNCHRONIZING PIT WALL..."; }
+    if (progress === 80) { lights[3].classList.add("active"); }
+    if (progress >= 100) {
+      lights[4].classList.add("active");
+      introText.textContent = "LIGHTS OUT & AWAY WE GO!";
+      clearInterval(introInterval);
+
+      setTimeout(() => {
+        lights.forEach(l => l.classList.remove("active"));
+        introScreen.style.opacity = "0";
+        
+        // Dispara la animación de entrada de los elementos principales
+        document.body.classList.add("page-loaded");
+
+        setTimeout(() => {
+          introScreen.style.display = "none";
+        }, 800);
+      }, 500);
+    }
+  }, 35);
+});
+
+// ==========================================
+// SIMULACIÓN DE DATOS EN VIVO (ANIMACIÓN DE TELEMETRÍA)
+// ==========================================
+setInterval(() => {
+  if(document.body.classList.contains("page-loaded")) {
+    const randomSpeed = 358 + Math.floor(Math.random() * 8);
+    const randomLatency = 10 + Math.floor(Math.random() * 5);
+    document.getElementById("topSpeed").textContent = randomSpeed + " KM/H";
+    document.getElementById("latencyVal").textContent = randomLatency + " MS";
+  }
+}, 2500);
+
+// ==========================================
+// EMAILJS CONFIGURACIÓN
+// ==========================================
 emailjs.init({
   publicKey: "1b5luNZnjUjWcRALz"
 });
@@ -631,36 +829,33 @@ form.addEventListener("submit", async function(e) {
 });
 
 // ==========================================
-// LISTA DE EQUIPOS Y LOS LINKS DE SUS LOGOS
-// (Aquí puedes cambiar o pegar tus links de imágenes)
+// LLUVIA DE LOGOS DE F1 INTERACTIVOS
 // ==========================================
 const f1TeamLogos = [
-  "https://cdn.worldvectorlogo.com/logos/ferrari-emblem-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/mercedes-benz-9.svg",
-  "https://cdn.worldvectorlogo.com/logos/aston-martin-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/red-bull-logo.svg",
-  "https://cdn.worldvectorlogo.com/logos/mclaren-logo-1.svg",
-  "https://cdn.worldvectorlogo.com/logos/96a934ab-059a-4c0b-ac5d-f1f40c605009/cadillac-8.svg",
-  "https://cdn.worldvectorlogo.com/logos/alpine-11.svg"
+  "https://cdn.worldvectorlogo.com/logos/ferrari-emblem-1.svg",
+  "https://cdn.worldvectorlogo.com/logos/mercedes-benz-9.svg",
+  "https://cdn.worldvectorlogo.com/logos/aston-martin-1.svg",
+  "https://cdn.worldvectorlogo.com/logos/red-bull-logo.svg",
+  "https://cdn.worldvectorlogo.com/logos/mclaren-logo-1.svg",
+  "https://cdn.worldvectorlogo.com/logos/96a934ab-059a-4c0b-ac5d-f1f40c605009/cadillac-8.svg",
+  "https://cdn.worldvectorlogo.com/logos/alpine-11.svg"
 ];
 
 const rainContainer = document.getElementById("logoRain");
-const numberOfLogos = 22; // Cantidad de logos cayendo al mismo tiempo
+const numberOfLogos = 22;
 
 for (let i = 0; i < numberOfLogos; i++) {
   const logoImg = document.createElement("img");
   logoImg.classList.add("f1-falling-logo");
   
-  // Selecciona un logo aleatorio de la lista anterior
   const randomLogoUrl = f1TeamLogos[Math.floor(Math.random() * f1TeamLogos.length)];
   logoImg.src = randomLogoUrl;
   logoImg.alt = "F1 Team Logo";
 
-  // Posición horizontal, velocidad de caída y retraso aleatorios
   const randomLeft = Math.random() * 100; 
-  const randomDuration = 7 + Math.random() * 9; // Entre 7 y 16 segundos
-  const randomDelay = Math.random() * 12; // Retraso de aparición inicial
-  const randomSize = 35 + Math.random() * 25; // Tamaño entre 35px y 60px
+  const randomDuration = 7 + Math.random() * 9; 
+  const randomDelay = Math.random() * 12; 
+  const randomSize = 35 + Math.random() * 25; 
 
   logoImg.style.left = `${randomLeft}%`;
   logoImg.style.animationDuration = `${randomDuration}s`;
@@ -668,7 +863,6 @@ for (let i = 0; i < numberOfLogos; i++) {
   logoImg.style.width = `${randomSize}px`;
   logoImg.style.height = `${randomSize}px`;
 
-  // EFECTO INTERACTIVO AL HACER CLIC EN UN LOGO
   logoImg.addEventListener("click", function() {
     this.style.transform = "scale(2.2) rotate(360deg)";
     this.style.opacity = "1";
